@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAT Plataforma de Regularização de Imóveis</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue: #2563EB;
+    --blue-dark: #1D4ED8;
+    --blue-light: #EFF6FF;
+    --text: #0F172A;
+    --muted: #64748B;
+    --border: #E2E8F0;
+    --bg: #F8FAFC;
+    --white: #ffffff;
+    --green: #16A34A;
+    --orange: #EA580C;
+    --purple: #7C3AED;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    color: var(--text);
+    background: var(--white);
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 17px; color: var(--text);
+    text-decoration: none;
+  }
+  .nav-logo svg { color: var(--blue); }
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-links a {
+    text-decoration: none; color: var(--muted);
+    font-size: 15px; font-weight: 500;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--blue); }
+  .btn-primary {
+    background: var(--blue); color: #fff;
+    border: none; padding: 10px 20px;
+    border-radius: 8px; font-size: 15px; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    transition: background .2s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-primary:hover { background: var(--blue-dark); }
+  .btn-outline {
+    background: transparent; color: var(--text);
+    border: 1.5px solid var(--border); padding: 10px 20px;
+    border-radius: 8px; font-size: 15px; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    transition: border-color .2s, color .2s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+
+  /* HERO */
+  #hero {
+    background: var(--bg);
+    padding: 80px 48px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+    align-items: center; min-height: 520px;
+  }
+  .hero-text h1 {
+    font-size: 52px; font-weight: 800; line-height: 1.15;
+    margin-bottom: 20px;
+  }
+  .hero-text h1 span { color: var(--blue); }
+  .hero-text p {
+    color: var(--muted); font-size: 17px;
+    max-width: 480px; margin-bottom: 32px;
+  }
+  .hero-buttons { display: flex; gap: 16px; margin-bottom: 32px; }
+  .hero-checks { display: flex; flex-direction: column; gap: 10px; }
+  .hero-checks span {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 15px; font-weight: 500;
+  }
+  .hero-checks span::before {
+    content: ''; display: inline-flex; width: 20px; height: 20px;
+    border-radius: 50%; border: 2px solid var(--green);
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2316A34A' stroke-width='2.5'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/14px no-repeat;
+    flex-shrink: 0;
+  }
+  .hero-image {
+    background: var(--white); border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 360px; overflow: hidden;
+  }
+  .hero-image svg { width: 260px; height: auto; }
+
+  /* SECTIONS */
+  section { padding: 80px 48px; }
+  .section-header { text-align: center; margin-bottom: 56px; }
+  .section-header h2 { font-size: 36px; font-weight: 800; margin-bottom: 12px; }
+  .section-header p { color: var(--muted); font-size: 17px; }
+
+  /* SERVICES */
+  #servicos { background: var(--white); }
+  .cards-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+  }
+  .card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 12px; padding: 32px 24px;
+    transition: box-shadow .2s, transform .2s;
+  }
+  .card:hover { box-shadow: 0 8px 32px rgba(37,99,235,.1); transform: translateY(-2px); }
+  .card-icon {
+    width: 56px; height: 56px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+  }
+  .card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+  .card p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+  /* PROCESS */
+  #processo { background: var(--bg); }
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    position: relative;
+  }
+  .step { position: relative; }
+  .step-number {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--blue); color: #fff;
+    font-size: 15px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+  }
+  .step-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px 22px;
+  }
+  .step-card-icon {
+    width: 56px; height: 56px; border-radius: 10px;
+    background: var(--blue-light);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+  }
+  .step-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .step-card p { color: var(--muted); font-size: 14px; }
+  .step-line {
+    position: absolute; top: 22px; left: calc(100% + 0px);
+    width: 24px; height: 2px; background: var(--blue);
+    opacity: .3;
+  }
+
+  /* BENEFITS */
+  #beneficios { background: var(--white); }
+  .benefits-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+  }
+  .benefit-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 12px; padding: 32px 24px;
+    transition: box-shadow .2s;
+  }
+  .benefit-card:hover { box-shadow: 0 8px 32px rgba(37,99,235,.1); }
+  .benefit-card .metric {
+    font-size: 40px; font-weight: 800; color: var(--blue); margin-bottom: 6px;
+  }
+  .benefit-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+  .benefit-card p { color: var(--muted); font-size: 14px; }
+
+  /* CONTACT */
+  #contato { background: var(--bg); }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+    max-width: 900px; margin: 0 auto;
+  }
+  .contact-form h2 { font-size: 26px; font-weight: 800; margin-bottom: 28px; }
+  .form-group { margin-bottom: 18px; }
+  .form-group label {
+    display: block; font-size: 14px; font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .form-group input,
+  .form-group textarea {
+    width: 100%; padding: 12px 14px;
+    border: 1.5px solid var(--border); border-radius: 8px;
+    font-family: inherit; font-size: 15px; color: var(--text);
+    background: var(--white); outline: none;
+    transition: border-color .2s;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus { border-color: var(--blue); }
+  .form-group textarea { height: 120px; resize: vertical; }
+  .btn-send {
+    width: 100%; background: var(--blue); color: #fff;
+    border: none; padding: 14px;
+    border-radius: 8px; font-size: 16px; font-weight: 700;
+    cursor: pointer; transition: background .2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-send:hover { background: var(--blue-dark); }
+
+  .contact-info h2 { font-size: 26px; font-weight: 800; margin-bottom: 28px; }
+  .info-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px;
+    margin-bottom: 16px;
+  }
+  .info-item {
+    display: flex; align-items: flex-start; gap: 16px;
+  }
+  .info-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .info-icon.blue { background: #EFF6FF; }
+  .info-icon.green { background: #F0FDF4; }
+  .info-icon.orange { background: #FFF7ED; }
+  .info-text strong { display: block; font-weight: 700; font-size: 15px; margin-bottom: 2px; }
+  .info-text span { color: var(--muted); font-size: 14px; }
+  .hours-card {
+    background: var(--blue); color: #fff;
+    border-radius: 12px; padding: 24px;
+  }
+  .hours-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
+  .hours-row {
+    display: flex; justify-content: space-between;
+    font-size: 14px; padding: 4px 0;
+  }
+  .hours-row .closed { font-weight: 700; }
+
+  /* FOOTER */
+  footer {
+    background: #0F172A; color: #CBD5E1;
+    padding: 56px 48px 32px;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 48px; margin-bottom: 48px;
+  }
+  .footer-brand .logo {
+    display: flex; align-items: center; gap: 10px;
+    color: #fff; font-size: 17px; font-weight: 700;
+    text-decoration: none; margin-bottom: 14px;
+  }
+  .footer-brand p { font-size: 14px; line-height: 1.7; }
+  .footer-col h4 { color: #fff; font-size: 15px; font-weight: 700; margin-bottom: 16px; }
+  .footer-col a {
+    display: block; color: #94A3B8;
+    text-decoration: none; font-size: 14px;
+    margin-bottom: 10px; transition: color .2s;
+  }
+  .footer-col a:hover { color: #fff; }
+  .social-icons { display: flex; gap: 10px; }
+  .social-icon {
+    width: 40px; height: 40px; border-radius: 8px;
+    border: 1px solid #334155;
+    display: flex; align-items: center; justify-content: center;
+    color: #94A3B8; transition: border-color .2s, color .2s;
+    text-decoration: none;
+  }
+  .social-icon:hover { border-color: var(--blue); color: var(--blue); }
+  .footer-bottom {
+    border-top: 1px solid #1E293B; padding-top: 24px;
+    text-align: center; font-size: 14px; color: #64748B;
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    #hero { grid-template-columns: 1fr; padding: 48px 20px; }
+    .hero-image { display: none; }
+    .hero-text h1 { font-size: 36px; }
+    section { padding: 56px 20px; }
+    .cards-grid, .steps-grid, .benefits-grid { grid-template-columns: 1fr 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="3" y="3" width="18" height="18" rx="2"/>
+      <path d="M7 8h10M7 12h10M7 16h6"/>
+    </svg>
+    SAT Plataforma de Regularização de Imóveis
+  </a>
+  <div class="nav-links">
+    <a href="#servicos">Serviços</a>
+    <a href="#processo">Processo</a>
+    <a href="#beneficios">Benefícios</a>
+    <a class="btn-primary" href="#contato">Fale Conosco</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-text">
+    <h1>Regularize seu Imóvel<br>com <span>Facilidade</span></h1>
+    <p>Acesse em tempo real todas as fases do processo de regularização do seu imóvel. De forma rápida, segura e sem complicações. Nossa plataforma simplifica tudo!</p>
+    <div class="hero-buttons">
+      <a class="btn-primary" href="#contato">Começar Agora →</a>
+      <a class="btn-outline" href="#servicos">Saiba Mais</a>
+    </div>
+    <div class="hero-checks">
+      <span>Processo 100% digital</span>
+      <span>Acompanhamento em tempo real</span>
+      <span>Suporte especializado</span>
+    </div>
+  </div>
+  <div class="hero-image">
+    <!-- House SVG illustration -->
+    <svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg">
+      <!-- Sky bg -->
+      <rect width="300" height="260" fill="#EFF6FF" rx="16"/>
+      <!-- Ground -->
+      <rect x="0" y="210" width="300" height="50" fill="#DBEAFE" rx="0"/>
+      <!-- House body -->
+      <rect x="60" y="130" width="180" height="100" fill="#BFDBFE"/>
+      <!-- Roof -->
+      <polygon points="40,135 150,50 260,135" fill="#92400E"/>
+      <!-- Door -->
+      <rect x="125" y="175" width="50" height="55" rx="4" fill="#78350F"/>
+      <!-- Door knob -->
+      <circle cx="168" cy="204" r="4" fill="#FCD34D"/>
+      <!-- Window left -->
+      <rect x="75" y="155" width="55" height="45" rx="4" fill="#7DD3FC"/>
+      <line x1="102" y1="155" x2="102" y2="200" stroke="#BFDBFE" stroke-width="2"/>
+      <line x1="75" y1="177" x2="130" y2="177" stroke="#BFDBFE" stroke-width="2"/>
+      <!-- Window right -->
+      <rect x="170" y="155" width="55" height="45" rx="4" fill="#7DD3FC"/>
+      <line x1="197" y1="155" x2="197" y2="200" stroke="#BFDBFE" stroke-width="2"/>
+      <line x1="170" y1="177" x2="225" y2="177" stroke="#BFDBFE" stroke-width="2"/>
+      <!-- Bushes -->
+      <circle cx="80" cy="218" r="22" fill="#4ADE80"/>
+      <circle cx="105" cy="214" r="18" fill="#22C55E"/>
+      <circle cx="195" cy="218" r="22" fill="#4ADE80"/>
+      <circle cx="220" cy="214" r="18" fill="#22C55E"/>
+    </svg>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="servicos">
+  <div class="section-header">
+    <h2>Nossos Serviços</h2>
+    <p>Soluções completas para regularização do seu imóvel</p>
+  </div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-icon" style="background:#EFF6FF">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <h3>Análise Documental</h3>
+      <p>Verificação completa de toda documentação necessária para regularização do seu imóvel.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:#F0FDF4">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      </div>
+      <h3>Obtenção do HABITE-SE</h3>
+      <p>Obtenção do certificado HABITE-SE junto aos órgãos competentes de forma ágil.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:#FFF7ED">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      </div>
+      <h3>Regularização Completa</h3>
+      <p>Processo completo de regularização incluindo aprovação de projetos e licenças.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:#F5F3FF">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h3>Consultoria Especializada</h3>
+      <p>Suporte especializado com profissionais legalmente habilitados para garantir segurança em todo o processo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="processo">
+  <div class="section-header">
+    <h2>Como Funciona</h2>
+    <p>Processo simples e transparente em 4 etapas</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-number">01</div>
+      <div class="step-card">
+        <div class="step-card-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <h3>Envie os Documentos</h3>
+        <p>Faça upload de toda documentação do imóvel através da nossa plataforma segura.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-number">02</div>
+      <div class="step-card">
+        <div class="step-card-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h3>Análise Técnica</h3>
+        <p>Nossa equipe realiza análise detalhada e identifica pendências.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-number">03</div>
+      <div class="step-card">
+        <div class="step-card-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <h3>Regularização</h3>
+        <p>Cuidamos de todo processo junto aos órgãos competentes.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-number">04</div>
+      <div class="step-card">
+        <div class="step-card-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h3>HABITE-SE Aprovado</h3>
+        <p>Receba seu certificado HABITE-SE e documentação regularizada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section id="beneficios">
+  <div class="section-header">
+    <h2>Por Que Escolher Nossa Plataforma</h2>
+    <p>Vantagens que fazem a diferença na regularização do seu imóvel</p>
+  </div>
+  <div class="benefits-grid">
+    <div class="benefit-card">
+      <div class="card-icon" style="background:#EFF6FF">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div class="metric">70%</div>
+      <h3>Economia de Tempo</h3>
+      <p>Processo até 70% mais rápido que métodos tradicionais</p>
+    </div>
+    <div class="benefit-card">
+      <div class="card-icon" style="background:#F0FDF4">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      </div>
+      <div class="metric" style="color:#16A34A">R$</div>
+      <h3>Melhor Custo-Benefício</h3>
+      <p>Preços transparentes e competitivos</p>
+    </div>
+    <div class="benefit-card">
+      <div class="card-icon" style="background:#FFF7ED">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      </div>
+      <div class="metric" style="color:#EA580C">15+</div>
+      <h3>Equipe Especializada</h3>
+      <p>Profissionais experientes em regularização</p>
+    </div>
+    <div class="benefit-card">
+      <div class="card-icon" style="background:#F5F3FF">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+      </div>
+      <div class="metric" style="color:#7C3AED">100%</div>
+      <h3>Garantia de Qualidade</h3>
+      <p>Satisfação garantida ou seu dinheiro de volta</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contato">
+  <div class="contact-grid">
+    <div class="contact-form">
+      <h2>Envie sua Mensagem</h2>
+      <div class="form-group">
+        <label>Nome Completo *</label>
+        <input type="text" placeholder="Seu nome">
+      </div>
+      <div class="form-group">
+        <label>E-mail *</label>
+        <input type="email" placeholder="seu@email.com">
+      </div>
+      <div class="form-group">
+        <label>Telefone</label>
+        <input type="tel" placeholder="(00) 00000-0000">
+      </div>
+      <div class="form-group">
+        <label>Mensagem *</label>
+        <textarea placeholder="Conte-nos sobre seu imóvel..."></textarea>
+      </div>
+      <button class="btn-send">
+        Enviar Mensagem
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+    <div class="contact-info">
+      <h2>Informações de Contato</h2>
+      <div class="info-card">
+        <div class="info-item" style="margin-bottom:20px">
+          <div class="info-icon blue">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="info-text">
+            <strong>E-mail</strong>
+            <span>contato@sat.com.br</span>
+          </div>
+        </div>
+        <div class="info-item" style="margin-bottom:20px">
+          <div class="info-icon green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.07 2.18 2 2 0 012.07 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div class="info-text">
+            <strong>Telefone</strong>
+            <span>31 99999 9999</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon orange">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="info-text">
+            <strong>Endereço</strong>
+            <span>Belo Horizonte MG</span>
+          </div>
+        </div>
+      </div>
+      <div class="hours-card">
+        <h3>Horário de Atendimento</h3>
+        <div class="hours-row"><span>Segunda a Sexta:</span><span>8h às 18h</span></div>
+        <div class="hours-row"><span>Sábado:</span><span>9h às 13h</span></div>
+        <div class="hours-row"><span>Domingo:</span><span class="closed">Fechado</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="logo" href="#">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
+        Plataforma de Regularização de Imóveis
+      </a>
+      <p>Simplificando a regularização de imóveis com tecnologia e expertise.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Serviços</h4>
+      <a href="#">Análise Documental</a>
+      <a href="#">Acompanhamento em Tempo Real</a>
+      <a href="#">Regularização</a>
+      <a href="#">Consultoria</a>
+    </div>
+    <div class="footer-col">
+      <h4>Empresa</h4>
+      <a href="#">Sobre Nós</a>
+      <a href="#">Blog</a>
+      <a href="#">Carreiras</a>
+      <a href="#">Contato</a>
+    </div>
+    <div class="footer-col">
+      <h4>Redes Sociais</h4>
+      <div class="social-icons">
+        <a class="social-icon" href="#">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a class="social-icon" href="#">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a class="social-icon" href="#">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a class="social-icon" href="#">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2025 Plataforma de Regularização de Imóveis. Todos os direitos reservados.
+  </div>
+</footer>
+
+</body>
+</html>
