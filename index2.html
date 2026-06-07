@@ -492,32 +492,26 @@
   <div class="contact-grid">
     <div class="contact-form">
       <h2>Envie sua Mensagem</h2>
-      <div id="form-success" style="display:none; background:#F0FDF4; border:1.5px solid #16A34A; border-radius:10px; padding:20px; text-align:center; color:#15803D; font-weight:600; font-size:16px; margin-bottom:20px;">
-        ✅ Mensagem enviada com sucesso! Entraremos em contato em breve.
+      <div class="form-group">
+        <label>Nome Completo *</label>
+        <input type="text" placeholder="Seu nome">
       </div>
-      <form id="gform" target="hidden_iframe" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfHQUtSCZhIbddJW56HIyjXGxDAkerKIawqKoQ86Ag9ffaH2w/formResponse" method="POST" onsubmit="handleSubmit()">
-        <div class="form-group">
-          <label>Nome Completo *</label>
-          <input type="text" name="entry.1515046610" placeholder="Seu nome" required>
-        </div>
-        <div class="form-group">
-          <label>E-mail</label>
-          <input type="email" name="entry.24719629" placeholder="seu@email.com">
-        </div>
-        <div class="form-group">
-          <label>Telefone</label>
-          <input type="tel" name="entry.995257541" placeholder="(00) 00000-0000">
-        </div>
-        <div class="form-group">
-          <label>Mensagem</label>
-          <textarea name="entry.1710819328" placeholder="Conte-nos sobre seu imóvel..."></textarea>
-        </div>
-        <button type="submit" class="btn-send">
-          Enviar Mensagem
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
-      </form>
-      <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="onIframeLoad()"></iframe>
+      <div class="form-group">
+        <label>E-mail *</label>
+        <input type="email" placeholder="seu@email.com">
+      </div>
+      <div class="form-group">
+        <label>Telefone</label>
+        <input type="tel" placeholder="(00) 00000-0000">
+      </div>
+      <div class="form-group">
+        <label>Mensagem *</label>
+        <textarea placeholder="Conte-nos sobre seu imóvel..."></textarea>
+      </div>
+      <button class="btn-send">
+        Enviar Mensagem
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
     </div>
     <div class="contact-info">
       <h2>Informações de Contato</h2>
@@ -607,20 +601,5 @@
   </div>
 </footer>
 
-<script>
-  var formSubmitted = false;
-
-  function handleSubmit() {
-    formSubmitted = true;
-  }
-
-  function onIframeLoad() {
-    if (formSubmitted) {
-      document.getElementById('gform').style.display = 'none';
-      document.getElementById('form-success').style.display = 'block';
-      formSubmitted = false;
-    }
-  }
-</script>
 </body>
 </html>
